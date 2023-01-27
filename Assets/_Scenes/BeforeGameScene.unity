@@ -1785,7 +1785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WELCOME TO THE MINESWEPEER
+  m_text: WELCOME TO THE MINESWEEPER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4fd142e995908424b9e1403df100c999, type: 2}
   m_sharedMaterial: {fileID: -7932592574125003834, guid: 4fd142e995908424b9e1403df100c999, type: 2}
@@ -2902,7 +2902,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5
+  m_text: 8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4fd142e995908424b9e1403df100c999, type: 2}
   m_sharedMaterial: {fileID: -7932592574125003834, guid: 4fd142e995908424b9e1403df100c999, type: 2}
@@ -3621,7 +3621,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5
+  m_text: 8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4fd142e995908424b9e1403df100c999, type: 2}
   m_sharedMaterial: {fileID: -7932592574125003834, guid: 4fd142e995908424b9e1403df100c999, type: 2}

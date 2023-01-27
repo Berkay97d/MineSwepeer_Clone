@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -21,7 +22,7 @@ public struct GameData
     public GameDifficulity GameDifficulity;
 }
 
-public class Datas : MonoBehaviour
+public class Data : MonoBehaviour
 {
     [Header("UI REFERENCES")]
     [SerializeField] private TMP_Dropdown difficulity;
@@ -29,7 +30,7 @@ public class Datas : MonoBehaviour
     [SerializeField] private TMP_InputField colums;
     
     private readonly int maxSize = 30;
-    private readonly int minSize = 4;
+    private readonly int minSize = 3;
     
     private int rowSize;
     private int columSize;
@@ -41,10 +42,7 @@ public class Datas : MonoBehaviour
     public void StartGame()
     {
         CurrentGameData = CheckGameDatas();
-        
-        Debug.Log("Row size: " + rowSize);
-        Debug.Log("Colum size: " + columSize);
-        Debug.Log("Difficultiy: " + gameDifficulity);
+        SceneManager.LoadScene(1);
     }
     
     private GameData CheckGameDatas()
