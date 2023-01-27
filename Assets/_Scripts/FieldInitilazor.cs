@@ -20,7 +20,7 @@ public class FieldInitilazor : MonoBehaviour
         DefineNeighbors();
     }
     
-
+    
     private void InitArea()
     {
         xSize = gameData.RowSize;
@@ -106,7 +106,6 @@ public class FieldInitilazor : MonoBehaviour
             }
         }
     }
-
     
     private int MinePercencentage()
     {

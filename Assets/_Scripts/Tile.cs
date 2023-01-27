@@ -12,6 +12,9 @@ public enum TileType
 
 public class Tile : MonoBehaviour
 {
+    [SerializeField] private Sprite[] sprites;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    
     
     public TileType tileType;
     
@@ -28,16 +31,21 @@ public class Tile : MonoBehaviour
 
     private int neighborMineCount;
 
+    private bool isOpened = false;
+    
+    private List<Tile> allNeighbors = new List<Tile>();
+
 
     private void Start()
     {
+        DefineNeighbors();
         DefineTileType();
+        FillInside();
     }
 
-    private Tile[] Neighbors()
+    private void DefineNeighbors()
     {
-        var myNeighbors = new[] {N_Left, N_Right, N_Down, N_Up, N_DownLeft, N_UpLeft, N_DownRight, N_UpRight};
-        return myNeighbors;
+        allNeighbors.AddAll(N_Left, N_Right, N_Down, N_Up, N_DownLeft, N_UpLeft, N_DownRight, N_UpRight);
     }
 
     private void DefineTileType()
@@ -49,7 +57,7 @@ public class Tile : MonoBehaviour
         }
 
         
-        foreach (var neighbor in Neighbors())
+        foreach (var neighbor in allNeighbors)
         {
             if (neighbor == null)
             {
@@ -76,20 +84,40 @@ public class Tile : MonoBehaviour
 
     private void Open(Tile tile)
     {
-        Debug.Log("Cliced to " + this.name);
-        tile.transform.position = new Vector3(100, 100, 0);
-        
-        if (neighborMineCount == 0)
-        {
-            foreach (var neighbor in Neighbors())
-            {
-                if (neighbor == null)
-                {
-                    continue;
-                }
-                
-                Open(neighbor);
-            }
+        spriteRenderer.sortingOrder = 2; //TIKLADIĞIMI AÇ
+        tile.isOpened = true;
+            
+        if (tile.isMine) {      //TIKLADIĞIM MAYINSA LOST 
+            //TODO GAME OVER
+            return;
         }
+        
+        if (neighborMineCount != 0) return; //KOMŞULARIMDA MAYIN VARSA KAPAT
+
+        foreach (var neighbor in allNeighbors)  //KOMŞULARIMDA MAYIN YOKSA VE BEN BİR MAYIN DEĞİLSEM BÜTÜN KOMŞULARIMI AÇ
+        {
+            if (neighbor == null || neighbor.isOpened)
+            {
+                continue;   //NULL OLAN VE AÇILMIŞ OLAN KOMŞULARI AÇMAYA ÇALIŞMA
+            }
+            neighbor.Open(neighbor);
+        }
+        
     }
+
+    private void FillInside()
+    {
+        if (this.tileType == TileType.Empty)
+        {
+            spriteRenderer.sprite = sprites[8];
+        }
+
+        if (tileType == TileType.Mine)
+        {
+            spriteRenderer.sprite = sprites[9];
+        }
+
+        spriteRenderer.sprite = sprites[neighborMineCount - 1];
+    }
+    
 }
