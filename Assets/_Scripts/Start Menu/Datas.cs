@@ -14,6 +14,13 @@ public enum GameDifficulity
     HARD
 }
 
+public struct GameData
+{
+    public int RowSize;
+    public int ColumSize;
+    public GameDifficulity GameDifficulity;
+}
+
 public class Datas : MonoBehaviour
 {
     [Header("UI REFERENCES")]
@@ -21,29 +28,23 @@ public class Datas : MonoBehaviour
     [SerializeField] private TMP_InputField rows;
     [SerializeField] private TMP_InputField colums;
     
-    private int rowSize;
-    private int columSize;
-    
     private readonly int maxSize = 30;
     private readonly int minSize = 4;
     
+    private int rowSize;
+    private int columSize;
     private GameDifficulity gameDifficulity;
-    
-    private struct GameData
-    {
-        public int RowSize;
-        public int ColumSize;
-        public GameDifficulity GameDifficulity;
-    }
 
+    public static GameData CurrentGameData; //FIELD INIT ICIN OKUNACAK DATALAR
     
     
     public void StartGame()
     {
-        CheckGameDatas();
+        CurrentGameData = CheckGameDatas();
+        
         Debug.Log("Row size: " + rowSize);
         Debug.Log("Colum size: " + columSize);
-        Debug.Log("Difficultiy size: " + gameDifficulity);
+        Debug.Log("Difficultiy: " + gameDifficulity);
     }
     
     private GameData CheckGameDatas()
