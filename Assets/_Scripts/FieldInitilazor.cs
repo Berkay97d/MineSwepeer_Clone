@@ -4,7 +4,9 @@ using Random = UnityEngine.Random;
 
 public class FieldInitilazor : MonoBehaviour
 {
+    
     [SerializeField] private Tile tile;
+    [SerializeField] private UpperMenuController menuController;
     
     private GameData gameData;
     private  int xSize;
@@ -18,6 +20,7 @@ public class FieldInitilazor : MonoBehaviour
         gameData = Data.CurrentGameData;
         InitArea();
         DefineNeighbors();
+        menuController.InitMenu();
     }
     
     

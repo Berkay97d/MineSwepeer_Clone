@@ -12,8 +12,10 @@ public enum TileType
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private Sprite[] sprites;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite[] insideSprites;
+    [SerializeField] private Sprite[] defaultSprites;
+    [SerializeField] private SpriteRenderer insideRenderer;
+    [SerializeField] private SpriteRenderer defaultRenderer;
     
     
     public TileType tileType;
@@ -32,7 +34,9 @@ public class Tile : MonoBehaviour
     private int neighborMineCount;
 
     private bool isOpened = false;
-    
+
+    private bool isFlagged = false;
+
     private List<Tile> allNeighbors = new List<Tile>();
 
 
@@ -79,16 +83,29 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (isFlagged || GameController.isLost || GameController.isWin) return;
+
         Open(this);
+    }
+       
+    private void OnMouseOver()
+    {
+        if (isFlagged || GameController.isLost || GameController.isWin) return;
+        
+        if (Input.GetMouseButtonUp(1))
+        {
+            isFlagged = !isFlagged;
+            AdjustDefaultSprite();
+        }
     }
 
     private void Open(Tile tile)
     {
-        spriteRenderer.sortingOrder = 2; //TIKLADIĞIMI AÇ
+        insideRenderer.sortingOrder = 2; //TIKLADIĞIMI AÇ
         tile.isOpened = true;
             
         if (tile.isMine) {      //TIKLADIĞIM MAYINSA LOST 
-            //TODO GAME OVER
+            GameController.isLost = true;
             return;
         }
         
@@ -109,15 +126,20 @@ public class Tile : MonoBehaviour
     {
         if (this.tileType == TileType.Empty)
         {
-            spriteRenderer.sprite = sprites[8];
+            insideRenderer.sprite = insideSprites[8];
         }
 
         if (tileType == TileType.Mine)
         {
-            spriteRenderer.sprite = sprites[9];
+            insideRenderer.sprite = insideSprites[9];
         }
 
-        spriteRenderer.sprite = sprites[neighborMineCount - 1];
+        insideRenderer.sprite = insideSprites[neighborMineCount - 1];
+    }
+
+    private void AdjustDefaultSprite()
+    {
+        defaultRenderer.sprite = defaultSprites[isFlagged ? 1 : 0];
     }
     
 }

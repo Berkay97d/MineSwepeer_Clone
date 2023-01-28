@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeb05208c036d9428136cd26fecdf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites:
+  insideSprites:
   - {fileID: 21300000, guid: e6f83586f27e8d740b182368f443dbed, type: 3}
   - {fileID: 21300000, guid: 79a20eceb969ddd40bc456145cdc85c2, type: 3}
   - {fileID: 21300000, guid: 3c57f8fb461641a45ba169a81261d9e6, type: 3}
@@ -58,7 +58,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ceea583e28a25574f91498bd2e373623, type: 3}
   - {fileID: 21300000, guid: 34832889c3f1bc141bbf115de0e8aaf2, type: 3}
   - {fileID: 21300000, guid: 1c2f8ce3fa29ab946a8bf032bdb7b203, type: 3}
-  spriteRenderer: {fileID: 7515655924204506986}
+  defaultSprites:
+  - {fileID: 21300000, guid: 3a9d812e537b0624e97678a95786f064, type: 3}
+  - {fileID: 21300000, guid: a754e557c41e4934b8f476e89ee0fcbf, type: 3}
+  insideRenderer: {fileID: 7515655924204506986}
+  defaultRenderer: {fileID: 2529485510649512407}
   tileType: 0
 --- !u!61 &9007301220383224817
 BoxCollider2D:
