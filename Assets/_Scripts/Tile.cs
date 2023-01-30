@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum TileType
 {
@@ -29,22 +30,47 @@ public class Tile : MonoBehaviour
     public Tile N_DownLeft { get; set; }
     public Tile N_Left { get; set; }
 
-    public bool isMine { private get; set; }
+    public bool isMine { get; set; }
 
     private int neighborMineCount;
 
-    private bool isOpened = false;
+    public bool isOpened = false;
 
     private bool isFlagged = false;
 
     private List<Tile> allNeighbors = new List<Tile>();
 
+    public static bool OpenedForLost = false;
+
+    private void Update()
+    {
+        if (GameController.GameState == GameState.Lost)
+        {
+            if (isOpened)
+            {
+                return;
+            }
+            Open(this);
+            OpenedForLost = true;
+        }
+    }
 
     private void Start()
     {
+        OpenedForLost = false;
         DefineNeighbors();
         DefineTileType();
         FillInside();
+
+        if (!isMine)
+        {
+            GameController.NonMineTiles.Add(this);
+        }
+    }
+
+    private void OnDisable()
+    {
+        Destroy(gameObject);
     }
 
     private void DefineNeighbors()
@@ -83,14 +109,14 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isFlagged || GameController.isLost || GameController.isWin) return;
+        if (isFlagged || GameController.GameState == GameState.Lost || GameController.GameState == GameState.Win) return;
 
         Open(this);
     }
        
     private void OnMouseOver()
     {
-        if (isFlagged || GameController.isLost || GameController.isWin) return;
+        if (GameController.GameState == GameState.Lost || GameController.GameState == GameState.Win) return;
         
         if (Input.GetMouseButtonUp(1))
         {
@@ -105,10 +131,11 @@ public class Tile : MonoBehaviour
         tile.isOpened = true;
             
         if (tile.isMine) {      //TIKLADIĞIM MAYINSA LOST 
-            GameController.isLost = true;
+            GameController.GameState = GameState.Lost;
             return;
         }
         
+        GameController.CheckIsWin();
         if (neighborMineCount != 0) return; //KOMŞULARIMDA MAYIN VARSA KAPAT
 
         foreach (var neighbor in allNeighbors)  //KOMŞULARIMDA MAYIN YOKSA VE BEN BİR MAYIN DEĞİLSEM BÜTÜN KOMŞULARIMI AÇ
@@ -120,6 +147,7 @@ public class Tile : MonoBehaviour
             neighbor.Open(neighbor);
         }
         
+        GameController.CheckIsWin();
     }
 
     private void FillInside()
@@ -127,11 +155,13 @@ public class Tile : MonoBehaviour
         if (this.tileType == TileType.Empty)
         {
             insideRenderer.sprite = insideSprites[8];
+            return;
         }
 
         if (tileType == TileType.Mine)
         {
             insideRenderer.sprite = insideSprites[9];
+            return;
         }
 
         insideRenderer.sprite = insideSprites[neighborMineCount - 1];
@@ -141,5 +171,6 @@ public class Tile : MonoBehaviour
     {
         defaultRenderer.sprite = defaultSprites[isFlagged ? 1 : 0];
     }
+    
     
 }
